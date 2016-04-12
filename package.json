@@ -1,0 +1,26 @@
+{
+  "name": "FactorioLauncher",
+  "version": "0.0.0",
+  "private": true,
+  "node-main": "./bin/www",
+  "main": "http://localhost:3000",
+  "window": {
+    "toolbar": false,
+    "resizable": false,
+    "width": 660,
+    "height": 500
+  },
+  "scripts": {
+    "start": "node_modules/.bin/nw ."
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0",
+    "nw": "~0.13.4"
+  }
+}
