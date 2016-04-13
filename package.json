@@ -11,6 +11,7 @@
     "height": 500
   },
   "scripts": {
+    "postinstall": "typings install",
     "start": "node_modules/.bin/nw ."
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "nw": "~0.13.4"
+    "nw": "~0.13.4",
+    "typescript": "~1.8.10"
   }
 }
