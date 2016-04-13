@@ -1,40 +1,45 @@
-import express = require('express');
-import path = require('path');
-import favicon = require('serve-favicon');
-import logger = require('morgan');
-import cookieParser = require('cookie-parser');
-import bodyParser = require('body-parser');
-import request = require('request');
-
-import * as routes from "./routes/index";
+"use strict";
+// import * as favicon from "serve-favicon";
+import * as express from "express";
+import * as path from "path";
+import * as logger from "morgan";
+import * as cookieParser from "cookie-parser";
+import * as bodyParser from "body-parser";
+import * as request from "request";
+import * as index from "./routes/index";
 import * as users from "./routes/users";
+import * as Error from "http-errors";
 import {Mod} from "./src/mod";
+import {Response} from "express-serve-static-core";
+import {Request} from "express-serve-static-core";
+import {HttpError} from "http-errors";
 
-request('http://api.factoriomods.com/mods', function(err,res,body) {
-    var testMod: Mod;
-    testMod = new Mod(body);
+request("http://api.factoriomods.com/mods", function(err, res, body) {
+    var mods = JSON.parse(body);
+    mods.sort((a, b) => { if (a.id > b.id) { return 1; } else if (a.id < b.id) { return -1; } else { return 0; } })
+        .forEach((mod) => { console.log(Mod.parseFromJson(JSON.stringify((mod)))); });
 })
 
-var app = express();
+let app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', routes);
-app.use('/users', users);
+app.use("/", index.router);
+app.use("/users", users.router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    let err: HttpError = Error("Not Found");
     err.status = 404;
     next(err);
 });
@@ -43,23 +48,23 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+if (app.get("env") === "development") {
+    app.use(function(err: HttpError, req: Request, res: Response) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.render("error", {
+            error: err,
             message: err.message,
-            error: err
         });
     });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function(err: HttpError, req: Request, res: Response) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render("error", {
+        error: {},
         message: err.message,
-        error: {}
     });
 });
 

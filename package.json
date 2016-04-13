@@ -2,7 +2,6 @@
   "name": "FactorioLauncher",
   "version": "0.0.0",
   "private": true,
-  "node-main": "./bin/www",
   "main": "http://localhost:3000",
   "window": {
     "toolbar": false,
