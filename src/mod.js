@@ -2,16 +2,15 @@
  * Created by Phtoph on 4/13/2016.
  */
 "use strict";
-var File = (function () {
-    function File(id, name, mirror, url) {
+var ModFile = (function () {
+    function ModFile(id, name, mirror, url) {
         this.id = id;
         this.name = name;
         this.mirror = mirror;
         this.url = url;
     }
-    return File;
+    return ModFile;
 }());
-exports.File = File;
 var Release = (function () {
     function Release(id, version, released_at, game_versions, dependencies, files) {
         this.id = id;
@@ -23,7 +22,6 @@ var Release = (function () {
     }
     return Release;
 }());
-exports.Release = Release;
 var Mod = (function () {
     function Mod(id, name, categories, author, description, releases) {
         this.id = id;
@@ -39,8 +37,10 @@ var Mod = (function () {
         data.releases.forEach(function (release) {
             var files = [];
             release.files.forEach(function (file) {
-                files.push(new File(file.id, file.name, file.mirror, file.url));
+                files.push(new ModFile(file.id, file.name, file.mirror, file.url));
             });
+
+
             releases.push(new Release(release.id, release.version, release.released_at, release.game_versions, release.dependencies, files));
         });
         return new Mod(data.id, data.name, data.categories, data.author, data.description, releases);
