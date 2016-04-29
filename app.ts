@@ -10,17 +10,19 @@ import * as index from "./routes/index";
 import * as users from "./routes/users";
 import * as Error from "http-errors";
 import {Mod} from "./src/mod";
-import {Response} from "express-serve-static-core";
-import {Request} from "express-serve-static-core";
+import {NextFunction} from "express";
+import {Response} from "express";
+import {Request} from "express";
+import {Express} from "express";
 import {HttpError} from "http-errors";
 
-request("http://api.factoriomods.com/mods", function(err, res, body) {
-    var mods = JSON.parse(body);
+request("http://api.factoriomods.com/mods", function(err: Error, res: Response, body: string) {
+    let mods = JSON.parse(body);
     mods.sort((a, b) => { if (a.id > b.id) { return 1; } else if (a.id < b.id) { return -1; } else { return 0; } })
         .forEach((mod) => { console.log(Mod.parseFromJson(JSON.stringify((mod)))); });
-})
+});
 
-let app = express();
+let app: Express = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -38,7 +40,7 @@ app.use("/", index.router);
 app.use("/users", users.router);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function(req: Request, res: Response, next: NextFunction) {
     let err: HttpError = Error("Not Found");
     err.status = 404;
     next(err);

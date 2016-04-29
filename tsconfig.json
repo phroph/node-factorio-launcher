@@ -5,8 +5,7 @@
     "moduleResolution": "node"
   },
   "filesGlob": [
-    "!node_modules/**",
-    "!typings/main/**"
+    "!node_modules/**"
   ],
   "files": [
     "typings/browser.d.ts",
@@ -14,8 +13,5 @@
     "routes/users.ts",
     "app.ts",
     "src/mod.ts"
-  ],
-  "exclude": [
-    "typings/main.d.ts"
   ]
 }

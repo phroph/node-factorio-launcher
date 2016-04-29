@@ -20,8 +20,9 @@ export class Mod {
             release.files.forEach((file) => {
                 files.push(new File(file.id, file.name, file.mirror, file.url));
             });
-            releases.push(new Release(release.id, release.version, release.released_at, release.game_versions, release.dependencies, files));
+            releases.push(
+                new Release(release.id, release.version, release.released_at, release.game_versions, release.dependencies, files));
         });
         return new Mod(data.id, data.name, data.categories, data.author, data.description, releases);
     }
-};
+}
